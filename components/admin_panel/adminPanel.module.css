@@ -1,0 +1,39 @@
+.nav {
+	background-color: orange;
+	min-height: 100vh;
+	width: 100%;
+	display : grid;
+	grid-template-columns: 1fr 3.5fr;
+	padding-inline: 10%;
+}
+
+.link {
+	height: 55px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	border-radius: 12px 0 0 12px;
+	color: white
+}
+
+.active {
+	background-color: white;
+	color: black;
+}
+
+.content {
+	background-color: white;
+	min-height: 100vh;
+	border-radius: 0 12px 12px 0;
+	padding: 25px;
+}
+
+.hover {
+	transition: var(--transition);
+}
+
+.hover:hover {
+	background-color: white;
+	color: black;
+}

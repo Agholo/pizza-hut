@@ -1,0 +1,35 @@
+.cart {
+	width: 40%;
+	max-height: 100vh;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 30;
+	padding: 10px;
+	background-color: var(--main-color);
+	color: white;
+}
+
+.exit {
+	display: flex;
+	justify-content: end;
+}
+
+.deleteAll {
+	display: flex;
+	justify-content: space-between;
+	margin-block: 10px;
+}
+
+
+.product {
+	width: 100%;
+	height: 60px;
+	display: flex;
+	margin-block: 10px
+}
+
+.content {
+	max-height: 100vh;
+	overflow: auto;
+}

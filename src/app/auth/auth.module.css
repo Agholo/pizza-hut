@@ -1,0 +1,107 @@
+.main {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(44, 44, 44)
+}
+
+.input {
+	height: 45px;
+	width: 100%;
+	margin-top: 7px;
+	background-color: transparent !important;
+	border-radius: var(--border-radius);
+	padding: 5px 12px;
+	color: white;
+	border: 1px solid var(--color-grey);
+}
+
+.leftHand {
+	background-color: #E33B41;
+	width: 50%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.leftHandCont {
+	height: 50%;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	color: white
+}
+
+.redButton {
+	height: 50px;
+	width: 85%;
+	background-color: var(--color-red);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	border-radius: var(--border-radius);
+	box-shadow: 0px 0px 15px 5px rgba(34, 60, 80, 0.2);
+	transition: var(--transition);
+	color: white;
+	font-size: 18px;
+}
+
+.redButton:hover {
+	background-color: var(--color-red-bold);
+}
+
+.rightHand {
+	background-color: #2E2E2E;
+	width: 50%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white
+}
+
+.input:focus {
+	outline: 0;
+}
+
+.rightHandCont {
+	min-height: 255px;
+	width: 50%;
+	border-radius: var(--border-radius);
+	border: 3px solid var(--color-red);
+	box-shadow: 0px 0px 50px 15px #e33b4124;
+	color: white;
+	padding: 20px 25px;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+
+.decor:hover {
+	text-decoration: underline;
+}
+
+.submitButton {
+	height: 45px;
+	width: 100%;
+	background-color: var(--color-red);
+	color: white;
+	font-size: 18px;
+	border: 0;
+	border-radius: var(--border-radius);
+	transition: var(--transition);
+	margin-top: 7px;
+
+}
+
+.submitButton:hover {
+	background-color: var(--color-red-bold);
+}
