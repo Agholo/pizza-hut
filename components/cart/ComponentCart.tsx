@@ -8,6 +8,7 @@ import { cartContext } from "../../providers/cartProvider"
 import Image from 'next/image'
 import axios from "axios"
 import { IProduct } from "../../utils/interfaces"
+import { useRouter } from "next/navigation"
 
 interface extendedIProduct extends IProduct {
 	count: number
@@ -15,6 +16,7 @@ interface extendedIProduct extends IProduct {
 
 export default function ComponentCart({setIsOpen} : {setIsOpen: Dispatch<SetStateAction<boolean>>}) {
 	const { productsInCart, setProductsInCart } = useContext<{productsInCart: extendedIProduct[], setProductsInCart: Dispatch<SetStateAction<IProduct[]>>}>(cartContext)
+	const router = useRouter()
 
 	async function updateCount(method: string, product: extendedIProduct) {
 		const updatedProductsInCart = [...productsInCart];
@@ -25,7 +27,7 @@ export default function ComponentCart({setIsOpen} : {setIsOpen: Dispatch<SetStat
 			updatedProductsInCart[index].count--;
 		}
 		setProductsInCart(updatedProductsInCart);
-		await axios.put("/api/users", {product: updatedProductsInCart[index]})
+		await axios.put("/api/users", {product: updatedProductsInCart[index], method})
 	}
 
 	async function deleteCart() {
@@ -54,11 +56,11 @@ export default function ComponentCart({setIsOpen} : {setIsOpen: Dispatch<SetStat
 						<h1>{product.count}</h1>
 						<IconButton aria-label='increment' icon={<Plus />} size="sm" colorScheme='#e2e2e2' onClick={() => {updateCount("increment", product)}}/>
 						<h1 style={{marginInline: "15px"}}>{+product.price * product.count} USD</h1>
-						<IconButton aria-label='delete' icon={<Trash2 />} size="sm" variant='outline' colorScheme='#A3A3A3' onClick={() => {setProductsInCart(productsInCart.filter(prod => prod._id !== product._id)); deleteProduct(product._id)}}/>
+						<IconButton  style={{marginInline: "15px", position: "absolute", right: "0"}} aria-label='delete' icon={<Trash2 />} size="sm" variant='outline' colorScheme='#A3A3A3' onClick={() => {setProductsInCart(productsInCart.filter(prod => prod._id !== product._id)); deleteProduct(product._id)}}/>
 					</div>
 				))}
 			</div>
-			<button className={styles.buttonSubmit}></button>
+			<button className={styles.buttonSubmit} onClick={() => router.push("/shop/basket")}>ԱՎԱՐՏԵԼ</button>
 		</div>
 	)
 }

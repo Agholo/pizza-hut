@@ -64,6 +64,7 @@
 
 .allRedButton:hover {
 	background-color: var(--color-red);
+	color: white;
 }
 
 .searchInput {

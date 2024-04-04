@@ -12,7 +12,7 @@ export default function PageLogin() {
 	const [email, setEmail] = useState<string>("")
 	const [password, setPassword] = useState<string>("")
 	const [repeat, setRepeat] = useState<string>("")
-	const [error, setError] = useState<string[]>([])
+	const [errors, setErrors] = useState<string[]>([])
 	const [pending, setPending] = useState<boolean>(false)
 
 	async function clickHandler(event: React.FormEvent<HTMLFormElement>) {
@@ -38,7 +38,6 @@ export default function PageLogin() {
 					</div>
 					<Link href={"/auth/login"} style={{width: "100%"}}><button className={styles.redButton}>Մուտք գործել</button></Link>
 				</div>
-
 			</div>
 			<div className={styles.rightHand}>
 				<div className={styles.rightHandCont}>

@@ -6,6 +6,7 @@ const usersSchema = new Schema({
 	password: { type: String, required: true },
 	role: { type: String, default: "USER" },
 	cart: { type: [Object] },
+	orders: { type: [String] },
 });
 
 export default mongoose.models.Users || mongoose.model("Users", usersSchema);

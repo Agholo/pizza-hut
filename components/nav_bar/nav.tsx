@@ -32,7 +32,7 @@ export default function ComponentNav({isAuth, isAdmin}: {isAuth: boolean, isAdmi
 			<h4 style={{color: "var(--color-red)"}}>PIZZA-HUT ARMENIA</h4>
 			</div>
 		</div>
-		{isAdmin && <button className={styles.redButton}><CircleUserRound  style={{marginRight: "5px"}} onClick={() => router.replace("/admin/dashboard")}/>ԱԴՄԻՆ</button>}
+		{isAdmin && <button className={styles.redButton} onClick={() => router.replace("/admin/dashboard")}><CircleUserRound  style={{marginRight: "5px"}}/>ԱԴՄԻՆ</button>}
 		<div className={styles.buttonCont}>
 			{registerBehavier(isAuth)}
 			<ShoppingCart onClick={() => setIsOpen(true)}/>

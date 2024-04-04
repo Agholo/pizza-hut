@@ -1,0 +1,101 @@
+.td {
+	padding: 5px 15px;
+	margin-block: 10px;
+	border-bottom: 1px solid var(--color-grey);
+}
+
+.select {
+	height: 45px;
+	width: 80px;
+	border: 1px solid var(--main-color);
+	border-radius: var(--border-radius)
+}
+
+
+.select:focus {
+	outline: 0;
+}
+
+.input {
+	height: 45px;
+	width: 200px;
+	border: 1px solid var(--main-color);
+	border-radius: var(--border-radius);
+	margin-left: 15px;
+	padding-inline: 12.5px
+}
+
+.input:focus {
+	outline: 0;
+}
+
+.submit {
+	height: 50px; 
+	width: 100%;
+	border-radius: var(--border-radius);
+	border: 0;
+	background-color: var(--color-red-bold);
+	color: white;
+	transition: var(--transition);
+	margin-block: 15px;
+}
+
+.submit:hover {
+	background-color: var(--color-red);
+}
+
+.bigInput {
+	width: 100%;
+	height: 45px;
+	border-radius: var(--border-radius);
+	border: 1px solid var(--main-color);
+	padding-inline: 10px; 
+}
+
+.bigInput:focus {
+	outline: 0
+}
+
+.textarea {
+	border: 1px solid var(--main-color);
+	border-radius: var(--border-radius);
+	padding: 10px;
+}
+
+.textarea:focus {
+	outline: 0
+}
+
+.promo {
+	height: 58px;
+	width: 100%;
+	padding-inline: 10px;
+}
+
+.promo:focus {
+	outline: 0;
+}
+
+.decor {
+	text-decoration: line-through;
+}
+
+.promoButton {
+	height: 50px;
+	width: 120px;
+	border-radius: var(--border-radius);
+	background-color: var(--color-red-bold);
+	transition: var(--transition);
+	border: 0;
+	color: white;
+}
+
+.promoButton:hover {
+	background-color: var(--color-red);
+}
+
+
+.submit:disabled {
+	background-color: var(--color-red-light);
+	cursor: not-allowed;
+}

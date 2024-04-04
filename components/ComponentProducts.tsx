@@ -32,7 +32,7 @@ export default function ComponentProduct({ product, setMessage }: { product: ext
 				[...prev, product]
 			))
 		}
-		await axios.put("/api/users", { product })
+		await axios.patch("/api/users", { product })
 	}
 
 	return <div style={{height: "362.5px"}}>
