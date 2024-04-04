@@ -65,6 +65,8 @@ export default async function handler(req, res) {
 			}
 		}
 	} else if (method === "DELETE") {
+		const { email } = req.data;
+		await Recover.findOneAndDelete({ email });
 	} else {
 		res.status(500).json({ message: "method not allowed" });
 	}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import styles from "../../../auth.module.css"
 import axios from "axios"
 
@@ -9,6 +9,7 @@ export default function PageChange() {
 	const [ password, setPassword ] = useState<string>("")
 	const [ repeat, setRepeat ] = useState<string>("")
 	const [ error, setError ] = useState<boolean>(false)
+	const params = useParams<{ email?: string}>()
 
 	const router = useRouter()
 
@@ -18,6 +19,8 @@ export default function PageChange() {
 		} else {
 			await axios.put("/api/users", { password })
 			router.replace("/auth/login")
+			const email = params?.email
+			await axios.delete(`/api/recover`, { data: { email }})
 		}
 	}
 
