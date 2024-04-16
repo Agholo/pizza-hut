@@ -13,7 +13,7 @@ export default async function ApiUsers(req, res) {
 		} else if (method === "PATCH") {
 			const { product } = req.body;
 			if (!session) {
-				return res.status(401).json({ result: "bad" });
+				return res.status(201).json({ result: "bad" });
 			}
 			const user = await Users.findOne({ _id: session });
 			const index = user.cart.findIndex((prod) => prod._id == product._id);
@@ -44,6 +44,6 @@ export default async function ApiUsers(req, res) {
 			res.status(200).json({ result: "good" });
 		}
 	} catch (e) {
-		res.status(500).json({ message: "eternal server error" });
+		res.status(500).json({ result: "bad" });
 	}
 }

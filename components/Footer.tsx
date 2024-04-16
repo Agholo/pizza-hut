@@ -11,9 +11,9 @@ export default function ComponentFooter() {
 				<span style={{display: 'flex', marginLeft: "15px"}}><Mail /><p className={styles.location}>asatryanpaga@gmail.com</p></span>
 			</div>
 			<div style={{display: "flex", marginTop: "35px"}}>
-				<button className={`${styles.socialMedia} ${styles.f}`}><Facebook /></button>
-				<button className={`${styles.socialMedia} ${styles.i}`}><Instagram /></button>
-				<button className={`${styles.socialMedia} ${styles.g}`}><Github /></button>
+				<a href="https://facebook.com"><button className={`${styles.socialMedia} ${styles.f}`}><Facebook /></button></a>
+				<a href="https://instagram.com"><button className={`${styles.socialMedia} ${styles.i}`}><Instagram /></button></a>
+				<a href="https://github.com/Agholo"><button className={`${styles.socialMedia} ${styles.g}`}><Github /></button></a>
 			</div>
 		</footer>
 	)

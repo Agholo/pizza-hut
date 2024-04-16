@@ -5,11 +5,14 @@ import axios from "axios"
 import { cartContext } from "../../../../providers/cartProvider"
 import Image from "next/image"
 import { IProduct } from "../../../../utils/interfaces"
-import { Plus, Minus, Trash2, Gift, ChevronRight } from "lucide-react"
+import { Plus, Minus, Trash2, Gift, ChevronRight, MapPin } from "lucide-react"
 import { IconButton } from "@chakra-ui/react"
 import styles from "./basket.module.css"
 import NumberDB from "../../../../lib/phoneCode.json"
 import Footer from "../../../../components/Footer"
+import PopupPayment from "../../../../components/popups/PaymentPopup"
+import PopupLocation from "../../../../components/popups/LocationPopup"
+import { useRouter } from "next/navigation"
 
 
 interface extendedIProduct extends IProduct {
@@ -21,11 +24,17 @@ interface IPhone {
 	code: string
 }
 
+export interface ILocationInfo {
+	location: string
+	description: string
+}
+
 
 export default function BasketPage() {
 	const { productsInCart, setProductsInCart } = useContext(cartContext)
-	const [ location, setLocation ] = useState<string>("my address") // change this to ""
+	const [ location, setLocation ] = useState<ILocationInfo>()
 	const [ locationPrice, setLocationPrice ] = useState<number>(0)
+	const [ locations, setLocations ] = useState<ILocationInfo[]>([])
 	const [ name, setName ] = useState<string>("")
 	const [ mail, setMail ] = useState<string>("")
 	const [ description, setDescription ] = useState<string>("")
@@ -34,8 +43,13 @@ export default function BasketPage() {
 	const [ number, setNumber ] = useState<string>("")
 	const [ error, setError ] = useState<string>("")
 	const [ promocode, setPromocode ] = useState<string>("")
+	const [ openPopupPaymentMethod, setOpenPopupPaymentMethod ] = useState<boolean>(false)
+	const [ openPopupLocation, setOpenPopupLocation ] = useState<boolean>(false)
 	const [ sell, setSell ] = useState<number | null | undefined>(null)
-	const [ peyMethod, setPeyMethod] = useState<string | null>(null)
+	const [ peyMethod, setPeyMethod] = useState<React.ReactElement | null>(null)
+	const [ promoLoading, setPromoLoading ] = useState<boolean>(false)
+
+	const router = useRouter()
 
 	async function updateCount(method: string, product: extendedIProduct) {
 		const updatedProductsInCart = [...productsInCart];
@@ -46,27 +60,34 @@ export default function BasketPage() {
 			updatedProductsInCart[index].count--;
 		}
 		setProductsInCart(updatedProductsInCart);
-		await axios.put("/api/users", {product: updatedProductsInCart[index], method})
+		await axios.patch("/api/users", {product: updatedProductsInCart[index], method})
 	}
 
 	async function deleteProduct(id: string | undefined) {
 		await axios.delete("/api/cart", { data: {id} })
 	}
 
+	useEffect(() => {
+		async function helper() {
+			const response = await axios.get("/api/location")
+			console.log(response.data)
+			setLocations(response.data.locations)
+		}
+		helper()
+	}, [])
+
 	async function orderReq() {
 		const price = priceCalculator() * (sell ? (100 - sell) / 100 : 1) + locationPrice
-		const response = await axios.post("/api/orders", {location, price, name, description, mail, products: productsInCart.map((prod: extendedIProduct) => prod._id), phone: code + number})
+		const response = await axios.post("/api/orders", {location, price, name, description, mail, products: productsInCart.map((prod: extendedIProduct) => { return { product: prod._id, count: prod.count}}), phone: code + number}) // add payment method 
 		setProductsInCart([])
-		// setLocation("")
-		setName("")
-		setMail("")
-		setNumber("")
-		setDescription("")
+		router.replace("/shop")
 		await axios.delete("/api/cart")
 	}
 
 	async function fetchPromo() {
+		setPromoLoading(true)
 		const response = await axios.get(`/api/promo/${promocode}`)
+		setPromoLoading(false)
 		const data = response.data
 		setSell(data.sell)
 	}
@@ -161,21 +182,23 @@ export default function BasketPage() {
 					<h2 style={{color: "red"}}>{error}</h2>
 					<input placeholder="Name Surname" style={{marginTop: "15px"}} className={styles.bigInput} value={name} onChange={(e) => setName(e.target.value)}></input>
 					<input placeholder="mail@example.com" style={{marginTop: "15px"}} className={styles.bigInput} value={mail} onChange={(e) => setMail(e.target.value)}></input>
-					<div style={{backgroundColor: "rgba(227, 59, 65, 0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", marginBlock: "15px", height: "45px", paddingInline: "10px", borderRadius: "var(--border-radius)", color: "var(--color-red-bold)", cursor: "pointer"}}><h1>Ընտրեք Հասցե</h1> <ChevronRight /></div>
+					<div style={{backgroundColor: "rgba(227, 59, 65, 0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", marginBlock: "15px", height: "45px", paddingInline: "10px", borderRadius: "var(--border-radius)", color: "var(--color-red-bold)", cursor: "pointer"}} onClick={() => setOpenPopupLocation(true)}><div style={{display: "flex"}}>{location && <MapPin style={{marginRight: "10px"}}/>}<h1>{location ? location.location : 'Ընտրեք Հասցե'}</h1></div> <ChevronRight /></div>
 					<textarea placeholder="Մեկնաբանություն" className={styles.textarea} value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
 					<div style={{display: "flex", marginTop: "15px", height: "60px", paddingInline: "10px", borderRadius: "var(--border-radius)", alignItems: "center", justifyContent: "space-between", color: "var(--color-red-bold)", border: "1px solid var(--main-color)"}} >
 						<Gift />
 						<input className={styles.promo} value={promocode} onChange={(e) => setPromocode(e.target.value)}></input>
-						<button onClick={fetchPromo} className={styles.promoButton}>Կիրառել</button>
+						<button onClick={fetchPromo} className={styles.promoButton} disabled={promoLoading}>Կիրառել</button>
 					</div>
-					{sell === undefined ? <h1>պրոմոկոդը չի գործում</h1> : sell === null ? "" : <h1>ձեր ապրանքը զեղչվել է {sell} %-ով</h1>}
-					<div style={{backgroundColor: "rgba(227, 59, 65, 0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", marginBlock: "15px", height: "45px", paddingInline: "10px", borderRadius: "var(--border-radius)", color: "var(--color-red-bold)", cursor: "pointer"}}><h1>Ընտրեք վճարման եղանակը:
+					{sell === undefined ? <h1 style={{color: "var(--color-red)"}}>պրոմոկոդը չի գործում</h1> : sell === null ? "" : <h1 style={{color: "green"}}>ձեր ապրանքը զեղչվել է {sell} %-ով</h1>}
+					<div style={{backgroundColor: "rgba(227, 59, 65, 0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", marginBlock: "15px", height: "45px", paddingInline: "10px", borderRadius: "var(--border-radius)", color: "var(--color-red-bold)", cursor: "pointer"}} onClick={() => setOpenPopupPaymentMethod(true)}><h1>{!peyMethod ? "Ընտրեք վճարման եղանակը:" : peyMethod}
 </h1> <ChevronRight /></div>
 					<h1>Ես կարդում և համաձայն եմ դրանց <a href="https://bonee.net/terms-and-conditions-en.html" target="_blank" style={{color: "var(--color-red-bold)"}}>Պայմանների</a> և <a href="https://bonee.net/privacy-policy-am.html" target="_blank" style={{color: "var(--color-red-bold)", marginTop: "15px"}}>Գաղտնիության Քաղաքականության</a></h1>
 					<button className={styles.submit} onClick={orderReq} disabled={!productsInCart.length}>ՀԱՍՏԱՏԵԼ</button>
 				</div>
 			</div>
 			<Footer />
+			{ openPopupPaymentMethod && <PopupPayment setOpenPopup={setOpenPopupPaymentMethod} setPeyMethod={setPeyMethod}/> }
+			{ openPopupLocation && <PopupLocation setOpenPopup={setOpenPopupLocation} setLocation={setLocation} locations={locations}/> }
 		</>
 	)
 }

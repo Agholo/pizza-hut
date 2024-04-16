@@ -16,23 +16,24 @@ export default function ComponentProduct({ product, setMessage }: { product: ext
 	const { productsInCart, setProductsInCart } = useContext(cartContext)
 
 	async function addToCart(product: extendedIProduct) {
-		setMessage(null)
-		setMessage("good")
 		setTimeout(() => {
 			setMessage(null)
 		},5000)
-		if(productsInCart.some((prod: extendedIProduct) => prod._id === product._id)) {
-			const updatedProductsInCart = [...productsInCart];
-			const index = updatedProductsInCart.findIndex((item) => item._id === product._id);
-			updatedProductsInCart[index].count++;
-			setProductsInCart(updatedProductsInCart);
-		} else {
-			product.count = 1
-			setProductsInCart((prev: extendedIProduct[]) => (
-				[...prev, product]
-			))
+		const response = await axios.patch("/api/users", { product })
+		setMessage(response.data.result)
+		if(response.data.result === "good") {
+			if(productsInCart.some((prod: extendedIProduct) => prod._id === product._id)) {
+				const updatedProductsInCart = [...productsInCart];
+				const index = updatedProductsInCart.findIndex((item) => item._id === product._id);
+				updatedProductsInCart[index].count++;
+				setProductsInCart(updatedProductsInCart);
+			} else {
+				product.count = 1
+				setProductsInCart((prev: extendedIProduct[]) => (
+					[...prev, product]
+				))
+			}
 		}
-		await axios.patch("/api/users", { product })
 	}
 
 	return <div style={{height: "362.5px"}}>

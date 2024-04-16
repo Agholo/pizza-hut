@@ -7,7 +7,11 @@ export default async function CartItems(req, res) {
 	try {
 		if (method === "GET") {
 			const session = req.cookies?.auth;
-			const user = await Users.findOne({ _id: session });
+			if (!session) {
+				res.status(200).json({ cart: [] });
+				return;
+			}
+			let user = await Users.findOne({ _id: session });
 			res.status(200).json({ cart: user.cart });
 		} else if (method === "DELETE") {
 			const session = req.cookies?.auth;

@@ -27,7 +27,7 @@ export default function ComponentCart({setIsOpen} : {setIsOpen: Dispatch<SetStat
 			updatedProductsInCart[index].count--;
 		}
 		setProductsInCart(updatedProductsInCart);
-		await axios.put("/api/users", {product: updatedProductsInCart[index], method})
+		await axios.patch("/api/users", {product: updatedProductsInCart[index], method})
 	}
 
 	async function deleteCart() {

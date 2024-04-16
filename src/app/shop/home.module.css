@@ -178,25 +178,3 @@
 	background-color: #EBEBEB;
 	color: var(--color-grey);
 }
-
-.message {
-	position: fixed;
-	right: 15px;
-	bottom: 15px;
-	height: 120px;
-	width: 280px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: white
-}
-
-.active {
-	animation: messageAnimation 5s linear;
-}
-
-@keyframes messageAnimation {
-	to {
-		opacity: 0;
-	}
-}

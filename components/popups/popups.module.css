@@ -1,0 +1,81 @@
+.background {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #2e2e2eaa;
+	z-index: 199;
+}
+
+.content {
+	width: 33%;
+	background-color: white;
+	height: 350px;
+	padding: 20px;
+}
+
+.method {
+	height: 17%;
+	padding: 10px;
+	width: 100%;
+	margin-inline: auto;
+	border-radius: var(--border-radius);
+	border: 1px solid var(--color-grey);
+	margin-block: 10px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.backgroundLocation {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	background-color: #2e2e2eaa;
+	z-index: 199;
+}
+
+.contentLocation {
+	width: 33%;
+	background-color: white;
+	padding: 20px;
+	position: relative;
+}
+
+.location {
+	height: 55px;
+	width: 100%;
+	background-color: transparent;
+	color: var(--color-red);
+	border: 1px solid var(--color-red);
+	border-radius: var(--border-radius);
+	margin-block: 15px;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.addButton {
+	background-color: var(--color-red);
+	border-radius: var(--border-radius);
+	color: white;
+	height: 55px;
+	width: 100%;
+	cursor: pointer;
+	margin-top: 15px;
+	transition: var(--transition)
+}
+
+.addButton:hover {
+	background-color: var(--color-red-bold)
+}

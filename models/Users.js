@@ -7,6 +7,7 @@ const usersSchema = new Schema({
 	role: { type: String, default: "USER" },
 	cart: { type: [Object] },
 	orders: { type: [String] },
+	location: { type: [Object] },
 });
 
 export default mongoose.models.Users || mongoose.model("Users", usersSchema);

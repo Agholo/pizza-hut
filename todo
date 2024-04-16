@@ -1,6 +1,7 @@
-2. change cart provider working logic to make faser response
-3. error handling
-   4.making recovery page with sending real email
-4. make hover scale effect scale(1.1) for products
-5. make cart
-6. add social media links in footer
+1. make to delete addresses
+2. make user settings
+3. make sing out logic
+4. make feedback side for clients and for admins
+5. error handling
+6. make hover scale effect scale(1.1) for products
+7. checkout validations

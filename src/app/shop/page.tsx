@@ -7,11 +7,7 @@ import axios from "axios"
 import ComponentCategory from "../../../components/ComponentCategory"
 import { ChevronLeft, ChevronRight, LoaderCircle } from "lucide-react"
 import ComponentFooter from "../../../components/Footer"
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-} from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 
 export interface IProduct {
 	_id: string,
@@ -46,6 +42,7 @@ export default function PageHome() {
 	const [ translate, setTranslate ] = useState<TypeTranslate>({category: 0, product: 0})
 	const [ disabler, setDisabler ] = useState<IDisabler>({category: {left: true, right: false}, product: {left: true, right: false}})
 
+	const toast = useToast()
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -132,9 +129,12 @@ export default function PageHome() {
 			</div>
 		</div>
 		<ComponentFooter />
-		{message && <Alert status={message === "good" ? "success" : "warning"} style={{position: "fixed", bottom: "15px", right: "15px", width: "25%"}} variant='top-accent' className={styles.active}>
-		<AlertIcon />
-		<AlertTitle>{message === "good" ? "Ապրանքը հաջողությամբ ավելացվել է զամբյուղում" : "Զամբյուղում ապրանք ավելացնելու համար անհրաժեշտ է մուտք գործել"}</AlertTitle>
-		</Alert>}
+		{ message && toast({
+			duration: 5000,
+			status: message === "good" ? "success" : "error",
+			title: message === "good" ? "Հաջողություն" : "Սխալ",
+			position: "bottom-right",
+			description: message === "good" ? "Ապրանքը հաջողությամբ ավելացվել է զամբյուղում" : "Ապրանքը չի ավելացվել զամբյուղում"
+		}) }
 	</>
 }
